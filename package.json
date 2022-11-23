@@ -10,6 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "colors": "^1.4.0",
-    "esm": "^3.2.25"
+    "esm": "^3.2.25",
+    "mime-types": "^2.1.35"
   }
 }
