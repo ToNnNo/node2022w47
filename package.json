@@ -9,6 +9,7 @@
   "author": "ToNo",
   "license": "MIT",
   "dependencies": {
-    "colors": "^1.4.0"
+    "colors": "^1.4.0",
+    "esm": "^3.2.25"
   }
 }

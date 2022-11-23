@@ -6,7 +6,7 @@ const pathfile = path.resolve('presentation', 'assets', 'content', 'file.txt');
 const content = 'Hello Async Await\r\n';
 
 // iife (Immediately Invoked Function Expression)
-(async () => {
+(async () => { // fonction anonyme fléché
     await fs.mkdir(path.dirname(pathfile), { recursive: true });
     console.log('Les répertoires ont bien été créés'.yellow);
 
