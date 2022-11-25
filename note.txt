@@ -1,0 +1,4 @@
+// SQL
+// qu'est ce qu'une table ? Que trouve t on dedans ?
+// quelles sont les principales requêtes SQL que l'on peut utiliser ?
+// lecture/ecrire/modification/suppression
