@@ -14,3 +14,59 @@ postRouter.get('', async (req: Request, res: Response) => {
 
     res.json(posts);
 });
+
+// affiche 1 Post
+postRouter.get('/:id', async (req: Request, res: Response) => {
+    // parseInt() = transforme une valeur numérique d'une string en un number
+    // ex: parseInt("1") => 1
+    // Number("1")
+    // + fait le même travail que Number()
+    // https://thisthat.dev/number-constructor-vs-parse-int/
+    const id = +req.params.id;
+    const postRepository = AppDataSource.getRepository(Post);
+    const post = await postRepository.findOne({
+        where: { id } // { id } = { id: id }
+    }); // SELECT * FROM post WHERE id = ...;
+
+    if(!post) {
+        res.status(404).json({ message: "La ressource n'existe pas" });
+        return;
+    }
+
+    res.json(post);
+});
+
+// ajouter 1 Post
+postRouter.post('', async (req: Request, res: Response) => {
+    const post = new Post();
+    
+    // req.body => Contenu envoyé par l'utilisateur
+    Object.assign(post, req.body); // merge object
+
+    const postRepository = AppDataSource.getRepository(Post);
+    const postCreated = await postRepository.save(post); // INSERT INTO ... 
+
+    res.status(201).json(postCreated);
+});
+
+// modification 1 Post
+postRouter.put('/:id', async (req: Request, res: Response) => {
+    const id = +req.params.id;
+    const body = req.body;
+
+    const postRepository = AppDataSource.getRepository(Post);
+    await postRepository.update(id, body);
+
+    res.status(204).json(); // No Content
+});
+
+
+// suppression 1 Post
+postRouter.delete('/:id', async (req: Request, res: Response) => {
+    const id = +req.params.id;
+   
+    const postRepository = AppDataSource.getRepository(Post);
+    await postRepository.delete(id);
+
+    res.status(204).json(); // No Content
+});
