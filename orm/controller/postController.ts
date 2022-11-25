@@ -55,9 +55,20 @@ postRouter.put('/:id', async (req: Request, res: Response) => {
     const body = req.body;
 
     const postRepository = AppDataSource.getRepository(Post);
-    await postRepository.update(id, body);
+    const data = await postRepository.update(id, body);
 
-    res.status(204).json(); // No Content
+    if(0 === data.affected) {
+        res.status(404).json({message: "La ressource n'existe pas"});
+        return;
+    }
+
+    const post = await postRepository.findOne({
+        where: { id } // { id } = { id: id }
+    });
+
+    // res.status(204).json(); // No Content
+
+    res.json(post);
 });
 
 
