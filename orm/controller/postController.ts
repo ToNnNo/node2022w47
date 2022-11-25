@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import { AppDataSource } from '../data-source';
+import { Category } from '../entity/Category';
 import { Post } from '../entity/Post';
 
 export const postRouter = express.Router();
@@ -10,7 +11,13 @@ export const postRouter = express.Router();
 // lister les Posts
 postRouter.get('', async (req: Request, res: Response) => {
     const postRepository = AppDataSource.getRepository(Post);
-    const posts = await postRepository.find(); // SELECT * FROM post;
+    // const posts = await postRepository.find(); // SELECT * FROM post;
+
+    const posts = await postRepository.find({
+        relations: {
+            category: true
+        }
+    }); // SELECT * FROM post (LEFT)JOIN category on post.categoryId = category.id;
 
     res.json(posts);
 });
@@ -39,9 +46,13 @@ postRouter.get('/:id', async (req: Request, res: Response) => {
 // ajouter 1 Post
 postRouter.post('', async (req: Request, res: Response) => {
     const post = new Post();
+    const category = new Category();
     
     // req.body => Contenu envoyé par l'utilisateur
     Object.assign(post, req.body); // merge object
+    Object.assign(category, req.body.category);
+
+    post.category = category;
 
     const postRepository = AppDataSource.getRepository(Post);
     const postCreated = await postRepository.save(post); // INSERT INTO ... 

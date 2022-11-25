@@ -8,7 +8,7 @@ export const AppDataSource = new DataSource({
     username: "root",
     password: "root",
     database: "node-typeorm-w47", // formation-node
-    synchronize: true,
+    synchronize: false, // Empeche la synchronisation automatique des tables; use npm run typeorm:sync
     logging: true,
     entities: ["orm/entity/**/*.ts"]
 });
